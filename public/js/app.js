@@ -1,13 +1,15 @@
-function MyCtrl($scope) {
+function MyCtrl($scope, $http) {
   
-  $scope.items = [];
-  $scope.addItem = function() {
-    console.log($scope.myForm);
-    if ($scope.myForm.$valid) {
-      $scope.items.push({name: $scope.newItem, rating: $scope.newRating});
-    } else {
-      console.log("form is invalid");
-    }
-  }
+  $http.get("/items.json").success(function(data){
+    $scope.items = data;
+  });
 
+  $scope.addItem = function() {
+    $scope.items.push({name: $scope.newItem, rating: $scope.newRating});
+    // push new data back to backend
+    $http.post("/items", {name: $scope.newItem, rating: $scope.newRating}).
+      success(function(d) { 
+        console.log("success");
+      });
+  }
 }

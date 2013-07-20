@@ -9,3 +9,9 @@ get '/items.json' do
   db = YAML::load(file)
   db.to_json
 end
+
+post '/items' do
+  puts "Received POST to items: #{request.body.read}"
+end
+
+
